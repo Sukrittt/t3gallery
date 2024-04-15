@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
@@ -26,7 +27,7 @@ async function Images() {
   return (
     <div className="flex flex-wrap justify-center gap-4 p-4">
       {images.map((image) => (
-        <div key={image.id}>
+        <Link href={`/photos/${image.id}`} key={image.id}>
           <div className="relative h-48 w-48 p-4">
             <Image
               src={image.url}
@@ -36,7 +37,7 @@ async function Images() {
             />
           </div>
           <p>{image.name}</p>
-        </div>
+        </Link>
       ))}
     </div>
   );
