@@ -1,7 +1,8 @@
-import Image from "next/image";
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
 import { notFound } from "next/navigation";
 
-import { getImage } from "~/server/queries";
+import FullPageImageView from "~/app/components/full-page-image";
 
 export default async function PhotoPage({
   params: { id: photoId },
@@ -14,18 +15,11 @@ export default async function PhotoPage({
     notFound();
   }
 
-  const image = await getImage(idAsNumber);
-
   return (
-    <div>
-      <div className="relative h-48 w-48 p-4">
-        <Image
-          src={image.url}
-          alt={image.name}
-          className="h-auto w-full"
-          fill
-        />
-      </div>
+    <div className="flex h-[80vh] w-screen items-center justify-center">
+      <Suspense fallback={<Loader2 className="h-4 w-4 animate-spin" />}>
+        <FullPageImageView photoId={idAsNumber} />
+      </Suspense>
     </div>
   );
 }

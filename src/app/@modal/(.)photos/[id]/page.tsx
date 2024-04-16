@@ -1,9 +1,10 @@
-import Image from "next/image";
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
 
 import { Modal } from "./modal";
-import { getImage } from "~/server/queries";
+import FullPageImageView from "~/app/components/full-page-image";
 
-export default async function PhotoModal({
+export default function PhotoModal({
   params: { id: photoId },
 }: {
   params: { id: string };
@@ -14,18 +15,11 @@ export default async function PhotoModal({
     return <Modal>Invalid photo ID</Modal>;
   }
 
-  const image = await getImage(idAsNumber);
-
   return (
     <Modal>
-      <div className="relative h-48 w-48 p-4">
-        <Image
-          src={image.url}
-          alt={image.name}
-          className="h-auto w-full"
-          fill
-        />
-      </div>
+      <Suspense fallback={<Loader2 className="h-4 w-4 animate-spin" />}>
+        <FullPageImageView photoId={idAsNumber} />
+      </Suspense>
     </Modal>
   );
 }
