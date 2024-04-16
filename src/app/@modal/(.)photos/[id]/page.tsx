@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 
 import { Modal } from "./modal";
-import FullPageImageView from "~/app/components/full-page-image";
+import FullPageImageView from "~/components/full-page-image";
 
 export default function PhotoModal({
   params: { id: photoId },

@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 import { notFound } from "next/navigation";
 
-import FullPageImageView from "~/app/components/full-page-image";
+import FullPageImageView from "~/components/full-page-image";
 
 export default async function PhotoPage({
   params: { id: photoId },

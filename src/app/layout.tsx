@@ -3,11 +3,12 @@ import "@uploadthing/react/styles.css";
 
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 
 import { Navbar } from "~/app/_components/navbar";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "~/app/api/uploadthing/core";
-import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { CSPostHogProvider } from "~/app/_analytics/provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,15 +30,17 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-      <html lang="en">
-        <body className={`font-sans ${inter.variable} flex flex-col gap-4`}>
-          <Navbar />
-          {children}
-          {modal}
-          <div id="modal-root" />
-        </body>
-      </html>
+      <CSPostHogProvider>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+        <html lang="en">
+          <body className={`font-sans ${inter.variable} flex flex-col gap-4`}>
+            <Navbar />
+            {children}
+            {modal}
+            <div id="modal-root" />
+          </body>
+        </html>
+      </CSPostHogProvider>
     </ClerkProvider>
   );
 }
