@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 
+import { getShortenedText } from "~/utils";
 import { getImages } from "~/server/queries";
 
 export const dynamic = "force-dynamic";
@@ -25,10 +26,10 @@ async function Images() {
   const images = await getImages();
 
   return (
-    <div className="flex flex-wrap justify-center gap-4 p-4">
+    <div className="flex flex-wrap justify-center gap-8 p-4">
       {images.map((image) => (
-        <Link href={`/photos/${image.id}`} key={image.id}>
-          <div className="relative h-48 w-48 p-4">
+        <Link href={`/photos/${image.id}`} key={image.id} className="space-y-2">
+          <div className="relative h-48 w-48 overflow-hidden rounded-md p-4 transition hover:scale-105">
             <Image
               src={image.url}
               alt={image.name}
@@ -36,7 +37,9 @@ async function Images() {
               fill
             />
           </div>
-          <p>{image.name}</p>
+          <p className="text-[13px] font-medium text-white">
+            {getShortenedText(image.name, 25)}
+          </p>
         </Link>
       ))}
     </div>
